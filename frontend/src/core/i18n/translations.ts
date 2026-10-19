@@ -1,0 +1,85 @@
+export const translations = {
+  en: {
+    eyebrow: "PUBLIC IMPACT INTELLIGENCE",
+    title: "A smarter future for Tamil Nadu.",
+    subtitle: "One connected intelligence platform to anticipate risks, strengthen public services and turn insights into action.",
+    dashboard: "Command Centre",
+    overview: "Overview",
+    modules: "Intelligence Modules",
+    activity: "Recent Intelligence",
+    live: "DEMO ENVIRONMENT",
+    demo: "SIMULATED DATA",
+    events: "Scenarios analysed",
+    risks: "Risks identified",
+    response: "Response readiness",
+    services: "Connected modules",
+    explore: "Explore module",
+    run: "Run scenario",
+    reset: "Reset demo",
+    language: "தமிழ்",
+    map: "Tamil Nadu Intelligence Map",
+    mapDesc: "Illustrative locations · Simulated incidents",
+    all: "All modules",
+    select: "Choose a scenario",
+    success: "Scenario analysis complete",
+    recent: "Latest simulated events",
+    severity: "Severity",
+    recommendation: "Suggested response",
+    footer: "An independent technology concept · Not an official government service",
+    modulesList: [
+      ["FairPass AI", "Detect coordinated ticket-abuse patterns", "Ticket Integrity", "ticket"],
+      ["AquaSentinel", "Identify water-flow and pressure anomalies", "Water Intelligence", "droplets"],
+      ["FloodShield TN", "Explore rainfall and flood-risk scenarios", "Flood Resilience", "waves"],
+      ["Civic Sentinel", "Classify civic complaints and find duplicates", "Civic Services", "landmark"],
+      ["Makkal Access AI", "Explore bilingual citizen-service guidance", "Citizen Access", "users"],
+      ["Public Safety", "Triage incidents with human review", "Safety Intelligence", "shield"]
+    ],
+    activities: [
+      ["Water pressure anomaly", "Coimbatore · Simulated", "Review sensor readings"],
+      ["Flood-risk scenario", "Chennai · Simulated", "Review response plan"],
+      ["Civic complaint cluster", "Madurai · Simulated", "Review duplicate candidates"]
+    ]
+  },
+  ta: {
+    eyebrow: "பொது நல நுண்ணறிவு தளம்",
+    title: "தமிழ்நாட்டின் சிறந்த எதிர்காலத்திற்காக.",
+    subtitle: "ஆபத்துகளை முன்கூட்டியே அறிந்து, பொதுச் சேவைகளை மேம்படுத்தி, தகவல்களைச் செயல்பாடுகளாக மாற்றும் ஒருங்கிணைந்த தளம்.",
+    dashboard: "நுண்ணறிவு மையம்",
+    overview: "மேலோட்டம்",
+    modules: "நுண்ணறிவு தொகுதிகள்",
+    activity: "சமீபத்திய நிகழ்வுகள்",
+    live: "செயல்விளக்கச் சூழல்",
+    demo: "மாதிரித் தரவு",
+    events: "பகுப்பாய்வு காட்சிகள்",
+    risks: "கண்டறியப்பட்ட அபாயங்கள்",
+    response: "மறுமொழி தயார்நிலை",
+    services: "இணைக்கப்பட்ட தொகுதிகள்",
+    explore: "தொகுதியைப் பார்க்க",
+    run: "சூழலை இயக்கவும்",
+    reset: "மீட்டமை",
+    language: "English",
+    map: "தமிழ்நாடு நுண்ணறிவு வரைபடம்",
+    mapDesc: "விளக்கத்திற்கான இடங்கள் · மாதிரி நிகழ்வுகள்",
+    all: "அனைத்து தொகுதிகள்",
+    select: "ஒரு சூழலைத் தேர்ந்தெடுக்கவும்",
+    success: "சூழல் பகுப்பாய்வு முடிந்தது",
+    recent: "சமீபத்திய மாதிரி நிகழ்வுகள்",
+    severity: "தீவிரம்",
+    recommendation: "பரிந்துரைக்கப்படும் நடவடிக்கை",
+    footer: "சுயாதீன தொழில்நுட்பக் கருத்தாக்கம் · அதிகாரப்பூர்வ அரசு சேவை அல்ல",
+    modulesList: [
+      ["டிக்கெட் பாதுகாப்பு AI", "ஒருங்கிணைந்த டிக்கெட் முறைகேடுகளைக் கண்டறிதல்", "டிக்கெட் பாதுகாப்பு", "ticket"],
+      ["நீர் நுண்ணறிவு AI", "நீர் ஓட்டம் மற்றும் அழுத்த மாறுபாடுகளைக் கண்டறிதல்", "நீர் நுண்ணறிவு", "droplets"],
+      ["வெள்ளக் கண்காணிப்பு TN", "மழை மற்றும் வெள்ள அபாயச் சூழல்களை ஆராய்தல்", "வெள்ளத் தடுப்பு", "waves"],
+      ["குடிமக்கள் சேவைகள்", "மக்கள் புகார்களை வகைப்படுத்தி நகல்களைக் கண்டறிதல்", "குடிமைச் சேவைகள்", "landmark"],
+      ["மக்கள் அணுகல் AI", "இருமொழி மக்கள் சேவை வழிகாட்டுதல்", "மக்கள் அணுகல்", "users"],
+      ["பொதுப் பாதுகாப்பு", "மனித மதிப்பாய்வுடன் சம்பவங்களை வகைப்படுத்துதல்", "பொதுப் பாதுகாப்பு", "shield"]
+    ],
+    activities: [
+      ["நீர் அழுத்த மாறுபாடு", "கோயம்புத்தூர் · மாதிரி", "சென்சார் அளவீடுகளை மதிப்பாய்வு செய்யவும்"],
+      ["வெள்ள அபாயச் சூழல்", "சென்னை · மாதிரி", "மறுமொழித் திட்டத்தை மதிப்பாய்வு செய்யவும்"],
+      ["குடிமைப் புகார் தொகுப்பு", "மதுரை · மாதிரி", "ஒத்த புகார்களை மதிப்பாய்வு செய்யவும்"]
+    ]
+  }
+} as const;
+export type Language = keyof typeof translations;
