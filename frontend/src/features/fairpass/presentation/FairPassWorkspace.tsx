@@ -120,9 +120,11 @@ function MetricValue({ value }: { value: number | string }) {
 function RiskDonut({
   distribution,
   total,
+  lang,
 }: {
   distribution: { label: string; count: number; color: string }[];
   total: number;
+  lang: "en" | "ta";
 }) {
   const reducedMotion = useReducedMotion();
   const radius = 54;
@@ -196,7 +198,7 @@ function RiskDonut({
           <strong style={{ fontSize: 31, letterSpacing: -1 }}>
             {total}
           </strong>
-          <span style={{ ...mutedStyle, fontSize: 10 }}>ASSESSMENTS</span>
+          <span style={{ ...mutedStyle, fontSize: 10 }}>{lang === "ta" ? "மதிப்பீடுகள்" : "ASSESSMENTS"}</span>
         </div>
       </div>
     </div>
@@ -358,7 +360,178 @@ function DetailDrawer({
   );
 }
 
-export function FairPassWorkspace() {
+const fairPassCopy = {
+  en: {
+    kicker: "TICKET INTEGRITY · ANALYTICS",
+    title: "FairPass AI · Risk Intelligence",
+    subtitle: "Booking integrity, risk analytics and review operations.",
+    newAssessment: "New assessment",
+    riskAnalytics: "RISK ANALYTICS",
+    bookingRiskScores: "Booking risk scores",
+    riskScoreDescription: "Risk score by assessment · out of 100",
+    riskBreakdown: "RISK BREAKDOWN",
+    assessmentDistribution: "Assessment distribution",
+    distributionDescription: "Actual records grouped by risk level",
+    modalTitle: "New assessment",
+    modalDescription: "{copy.modalDescription}",
+    eventId: "Event ID",
+    bookingReference: "Booking reference",
+    ticketsRequested: "Tickets requested",
+    eventTicketLimit: "Event ticket limit",
+    bookingsLastTenMinutes: "Bookings in last 10 min",
+    failedPaymentAttempts: "Failed payment attempts",
+    repeatedBookingPattern: "Repeated booking pattern",
+    repeatedBookingDescription: "{copy.repeatedBookingDescription}",
+    accountVerified: "Account verified",
+    accountVerifiedDescription: "{copy.accountVerifiedDescription}",
+    prototypeNotice: "{copy.prototypeNotice}",
+    cancel: "Cancel",
+    assessBooking: "Assess booking",
+
+    humanReview: "Human review enabled",
+    humanReviewDescription: "{copy.humanReviewDescription}",
+    liveApiData: "LIVE API DATA",
+    historyTitle: "Assessment history",
+    historyDescription: "Search and filter booking risk assessments.",
+    searchLabel: "Search assessments",
+    searchPlaceholder: "Search booking or event ID...",
+    filterLabel: "Filter by risk level",
+    allRiskLevels: "All risk levels",
+    highOption: "High risk",
+    mediumOption: "Medium risk",
+    lowOption: "Low risk",
+    loadingAssessments: "Loading assessments...",
+    historyUnavailable: "Assessment history is unavailable.",
+    noMatches: "No assessments match your search or filter.",
+    event: "Event",
+    riskScore: "Risk score",
+    riskLevel: "Risk level",
+    decision: "Decision",
+    signals: "Signals",
+    created: "Created",
+    showingUpTo: "Showing up to 8 records. Select a booking for details.",
+    apiBackedData: "API-backed data",
+    bookingRef: "Booking reference",
+    bookingsLastTen: "Bookings in last 10 min",
+    failedPayments: "Failed payment attempts",
+    repeatPattern: "Repeated booking pattern",
+    repeatPatternDescription: "A configured repeat pattern was observed.",
+    assessmentDisclaimer: "This assessment uses prototype rules, not a validated prediction model. High-risk results require human review.",
+    refreshing: "Refreshing...",
+    refresh: "Refresh",
+    apiAttention: "API connection needs attention",
+    operations: "FairPass risk operations",
+    records: "returned records",
+    prototype: "Rules-based prototype",
+    total: "Total assessments",
+    totalDetail: "Records returned by API",
+    high: "High-risk assessments",
+    highDetail: "Require careful review",
+    manual: "Manual review queue",
+    manualDetail: "Awaiting human assessment",
+    average: "Average risk score",
+    averageDetail: "Across returned records",
+    lowRisk: "Low risk",
+    mediumRisk: "Medium risk",
+    highRisk: "High risk",
+    loadError: "Unable to load assessments. Check that the backend is running.",
+    success: "Assessment completed successfully.",
+    failed: "Assessment failed. Check the backend and try again.",
+    eventIdPlaceholder: "e.g. CHENNAI-CONCERT-01",
+    bookingReferencePlaceholder: "e.g. BOOK-2026-1003",
+    assessing: "Assessing...",
+    riskOperations: "RISK OPERATIONS",
+    fairPassTitle: "FairPass AI · Risk Intelligence",
+  },
+  ta: {
+    kicker: "டிக்கெட் நேர்மை · பகுப்பாய்வு",
+    title: "டிக்கெட் நேர்மை · அபாய நுண்ணறிவு",
+    subtitle: "முன்பதிவு நேர்மை, அபாயப் பகுப்பாய்வு மற்றும் மதிப்பாய்வு செயல்பாடுகள்.",
+    newAssessment: "புதிய மதிப்பீடு",
+    riskAnalytics: "அபாயப் பகுப்பாய்வு",
+    bookingRiskScores: "முன்பதிவு அபாய மதிப்பெண்கள்",
+    riskScoreDescription: "ஒவ்வொரு மதிப்பீட்டின் அபாய மதிப்பெண் · 100-க்கு",
+    riskBreakdown: "அபாய வகைப்பாடு",
+    assessmentDistribution: "மதிப்பீடுகளின் பகிர்வு",
+    distributionDescription: "அபாய நிலையின் அடிப்படையில் வகைப்படுத்தப்பட்ட பதிவுகள்",
+    modalTitle: "புதிய மதிப்பீடு",
+    modalDescription: "கட்டமைக்கப்பட்ட முன்மாதிரி விதிகளின் அடிப்படையில் அபாயத்தை மதிப்பிட முன்பதிவு விவரங்களை உள்ளிடவும்.",
+    eventId: "நிகழ்வு ID",
+    bookingReference: "முன்பதிவு குறிப்பு",
+    ticketsRequested: "கோரப்பட்ட டிக்கெட்டுகள்",
+    eventTicketLimit: "நிகழ்வின் டிக்கெட் வரம்பு",
+    bookingsLastTenMinutes: "கடந்த 10 நிமிட முன்பதிவுகள்",
+    failedPaymentAttempts: "தோல்வியடைந்த கட்டண முயற்சிகள்",
+    repeatedBookingPattern: "மீண்டும் மீண்டும் முன்பதிவு செய்யும் முறை",
+    repeatedBookingDescription: "மீண்டும் நிகழும் முன்பதிவு முறை கண்டறியப்பட்டது.",
+    accountVerified: "கணக்கு சரிபார்க்கப்பட்டது",
+    accountVerifiedDescription: "கணக்கு சரிபார்ப்பு முழுமையடையவில்லை என்றால் தேர்வை நீக்கவும்.",
+    prototypeNotice: "இந்த மதிப்பீடு முன்மாதிரி விதிகளைப் பயன்படுத்துகிறது; சரிபார்க்கப்பட்ட கணிப்புக் கருவி அல்ல. அதிக அபாய முடிவுகளுக்கு மனித மதிப்பாய்வு தேவை.",
+    cancel: "ரத்துசெய்",
+    assessBooking: "முன்பதிவை மதிப்பிடு",
+
+    humanReview: "மனித மதிப்பாய்வு செயல்பாட்டில் உள்ளது",
+    humanReviewDescription: "அதிக அபாய மதிப்பீடுகள் மதிப்பாய்வுக்குக் குறிக்கப்படும். பயனர்கள் தானாகத் தடுக்கப்பட மாட்டார்கள்.",
+    liveApiData: "நேரடி API தரவு",
+    historyTitle: "மதிப்பீட்டு வரலாறு",
+    historyDescription: "முன்பதிவு அபாய மதிப்பீடுகளைத் தேடவும் வடிகட்டவும்.",
+    searchLabel: "மதிப்பீடுகளைத் தேடவும்",
+    searchPlaceholder: "முன்பதிவு அல்லது நிகழ்வு ID-ஐத் தேடவும்...",
+    filterLabel: "அபாய நிலைப்படி வடிகட்டவும்",
+    allRiskLevels: "அனைத்து அபாய நிலைகளும்",
+    highOption: "அதிக அபாயம்",
+    mediumOption: "நடுத்தர அபாயம்",
+    lowOption: "குறைந்த அபாயம்",
+    loadingAssessments: "மதிப்பீடுகள் ஏற்றப்படுகின்றன...",
+    historyUnavailable: "மதிப்பீட்டு வரலாற்றைப் பெற முடியவில்லை.",
+    noMatches: "உங்கள் தேடல் அல்லது வடிகட்டலுக்கு பொருத்தமான மதிப்பீடுகள் இல்லை.",
+    event: "நிகழ்வு",
+    riskScore: "அபாய மதிப்பெண்",
+    riskLevel: "அபாய நிலை",
+    decision: "முடிவு",
+    signals: "குறிகாட்டிகள்",
+    created: "உருவாக்கப்பட்டது",
+    showingUpTo: "அதிகபட்சம் 8 பதிவுகள். விவரங்களைக் காண முன்பதிவைத் தேர்ந்தெடுக்கவும்.",
+    apiBackedData: "API தரவு",
+    bookingRef: "முன்பதிவு குறிப்பு",
+    bookingsLastTen: "கடந்த 10 நிமிட முன்பதிவுகள்",
+    failedPayments: "தோல்வியடைந்த கட்டண முயற்சிகள்",
+    repeatPattern: "மீண்டும் நிகழும் முன்பதிவு முறை",
+    repeatPatternDescription: "அமைக்கப்பட்ட மீண்டும் நிகழும் முறை கண்டறியப்பட்டது.",
+    assessmentDisclaimer: "இந்த மதிப்பீடு முன்மாதிரி விதிகளைப் பயன்படுத்துகிறது; இது சரிபார்க்கப்பட்ட கணிப்பு மாதிரி அல்ல. அதிக அபாய முடிவுகளுக்கு மனித மதிப்பாய்வு தேவை.",
+    refreshing: "புதுப்பிக்கிறது...",
+    refresh: "புதுப்பிக்கவும்",
+    apiAttention: "API இணைப்பைச் சரிபார்க்கவும்",
+    operations: "FairPass அபாயச் செயல்பாடுகள்",
+    records: "பதிவுகள் பெறப்பட்டன",
+    prototype: "விதிமுறை அடிப்படையிலான முன்மாதிரி",
+    total: "மொத்த மதிப்பீடுகள்",
+    totalDetail: "API மூலம் பெறப்பட்ட பதிவுகள்",
+    high: "அதிக அபாய மதிப்பீடுகள்",
+    highDetail: "கவனமாக மதிப்பாய்வு செய்ய வேண்டும்",
+    manual: "கைமுறை மதிப்பாய்வுப் பட்டியல்",
+    manualDetail: "மனித மதிப்பாய்வுக்காகக் காத்திருக்கிறது",
+    average: "சராசரி அபாய மதிப்பெண்",
+    averageDetail: "பெறப்பட்ட பதிவுகளின் அடிப்படையில்",
+    lowRisk: "குறைந்த அபாயம்",
+    mediumRisk: "நடுத்தர அபாயம்",
+    highRisk: "அதிக அபாயம்",
+    loadError: "மதிப்பீடுகளை ஏற்ற முடியவில்லை. Backend இயங்குகிறதா எனச் சரிபார்க்கவும்.",
+    success: "மதிப்பீடு வெற்றிகரமாக முடிந்தது.",
+    failed: "மதிப்பீடு தோல்வியடைந்தது. Backend-ஐச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+    eventIdPlaceholder: "எ.கா. CHENNAI-CONCERT-01",
+    bookingReferencePlaceholder: "எ.கா. BOOK-2026-1003",
+    assessing: "மதிப்பிடுகிறது...",
+    riskOperations: "அபாயச் செயல்பாடுகள்",
+    fairPassTitle: "டிக்கெட் நேர்மை · அபாய நுண்ணறிவு",
+  },
+} as const;
+
+type FairPassLanguage = keyof typeof fairPassCopy;
+
+export function FairPassWorkspace({ lang = "en" }: { lang?: FairPassLanguage }) {
+  const copy = fairPassCopy[lang];
+
   const reducedMotion = useReducedMotion();
 
   const [records, setRecords] = useState<FairPassAssessment[]>([]);
@@ -381,7 +554,7 @@ export function FairPassWorkspace() {
       const result = await getFairPassAssessments(100);
       setRecords(result);
     } catch {
-      setError("Unable to load assessments. Check that the backend is running.");
+      setError(copy.loadError);
     } finally {
       setLoading(false);
     }
@@ -406,17 +579,17 @@ export function FairPassWorkspace() {
   const distribution = useMemo(
     () => [
       {
-        label: "Low risk",
+        label: copy.lowRisk,
         count: records.filter((r) => r.risk_level.toLowerCase() === "low").length,
         color: GREEN,
       },
       {
-        label: "Medium risk",
+        label: copy.mediumRisk,
         count: records.filter((r) => r.risk_level.toLowerCase() === "medium").length,
         color: GOLD,
       },
       {
-        label: "High risk",
+        label: copy.highRisk,
         count: records.filter((r) => r.risk_level.toLowerCase() === "high").length,
         color: RED,
       },
@@ -442,30 +615,30 @@ export function FairPassWorkspace() {
 
   const metrics = [
     {
-      label: "Total assessments",
+      label: copy.total,
       value: records.length,
-      detail: "Records returned by API",
+      detail: copy.totalDetail,
       icon: Activity,
       color: BLUE,
     },
     {
-      label: "High-risk assessments",
+      label: copy.high,
       value: highRisk,
-      detail: "Require careful review",
+      detail: copy.highDetail,
       icon: AlertTriangle,
       color: RED,
     },
     {
-      label: "Manual review queue",
+      label: copy.manual,
       value: reviewQueue,
-      detail: "Awaiting human assessment",
+      detail: copy.manualDetail,
       icon: ShieldCheck,
       color: GOLD,
     },
     {
-      label: "Average risk score",
+      label: copy.average,
       value: `${averageRisk}/100`,
-      detail: "Across returned records",
+      detail: copy.averageDetail,
       icon: TrendingUp,
       color: GREEN,
     },
@@ -500,13 +673,13 @@ export function FairPassWorkspace() {
       setForm(initialForm);
       setFormOpen(false);
       setSelected(normalized);
-      setToast("Assessment completed successfully.");
+      setToast(copy.success);
       void loadRecords(true);
     } catch (err) {
       setFormError(
         err instanceof Error
           ? err.message
-          : "Assessment failed. Check the backend and try again.",
+          : copy.failed,
       );
     } finally {
       setSubmitting(false);
@@ -546,12 +719,12 @@ export function FairPassWorkspace() {
         }}
       >
         <div>
-          <span className="section-kicker">TICKET INTEGRITY · ANALYTICS</span>
+          <span className="section-kicker">{copy.kicker}</span>
           <h2 id="fairpass-title" style={{ margin: "7px 0", letterSpacing: "-0.7px" }}>
-            FairPass AI · Risk Intelligence
+            {copy.title}
           </h2>
           <p style={{ ...mutedStyle, margin: 0, lineHeight: 1.8 }}>
-            Booking integrity, risk analytics and review operations.
+            {copy.subtitle}
           </p>
         </div>
 
@@ -570,7 +743,7 @@ export function FairPassWorkspace() {
               borderColor: GOLD,
             }}
           >
-            <Plus size={16} /> New assessment
+            <Plus size={16} /> {copy.newAssessment}
           </motion.button>
 
           <motion.button
@@ -587,7 +760,7 @@ export function FairPassWorkspace() {
                 animation: loading && !reducedMotion ? "fp-spin 1s linear infinite" : "none",
               }}
             />
-            {loading ? "Refreshing..." : "Refresh"}
+            {loading ? copy.refreshing : copy.refresh}
           </motion.button>
         </div>
       </motion.header>
@@ -614,7 +787,7 @@ export function FairPassWorkspace() {
             display: "inline-block",
           }}
         />
-        {error ? "API connection needs attention" : "FairPass risk operations"}
+        {error ? copy.apiAttention : copy.operations}
         <span style={{ opacity: 0.5 }}>•</span>
         {records.length} returned records
         <span style={{ opacity: 0.5 }}>•</span>
@@ -755,9 +928,9 @@ export function FairPassWorkspace() {
             }}
           >
             <div>
-              <span className="section-kicker">RISK ANALYTICS</span>
-              <h3 style={{ margin: "7px 0" }}>Booking risk scores</h3>
-              <p style={{ ...mutedStyle, margin: 0 }}>Risk score by assessment · out of 100</p>
+              <span className="section-kicker">{copy.riskAnalytics}</span>
+              <h3 style={{ margin: "7px 0" }}>{copy.bookingRiskScores}</h3>
+              <p style={{ ...mutedStyle, margin: 0 }}>{copy.riskScoreDescription}</p>
             </div>
             <Activity size={20} color={GOLD} />
           </div>
@@ -846,9 +1019,9 @@ export function FairPassWorkspace() {
           style={panelStyle}
         >
           <div style={{ marginBottom: 10 }}>
-            <span className="section-kicker">RISK BREAKDOWN</span>
-            <h3 style={{ margin: "7px 0" }}>Assessment distribution</h3>
-            <p style={{ ...mutedStyle, margin: 0 }}>Actual records grouped by risk level</p>
+            <span className="section-kicker">{copy.riskBreakdown}</span>
+            <h3 style={{ margin: "7px 0" }}>{copy.assessmentDistribution}</h3>
+            <p style={{ ...mutedStyle, margin: 0 }}>{copy.distributionDescription}</p>
           </div>
 
           {loading ? (
@@ -857,11 +1030,11 @@ export function FairPassWorkspace() {
             <p style={{ ...mutedStyle, padding: "20px 0" }}>No assessment data available.</p>
           ) : (
             <>
-              <RiskDonut distribution={distribution} total={records.length} />
+              <RiskDonut distribution={distribution} total={records.length} lang={lang} />
               <div style={{ display: "grid", gap: 16 }}>
                 {distribution.map((item, index) => (
                   <motion.div
-                    key={item.label}
+                    key={item.label === "Low risk" ? copy.lowRisk : item.label === "Medium risk" ? copy.mediumRisk : item.label === "High risk" ? copy.highRisk : item.label}
                     initial={reducedMotion ? false : { opacity: 0, x: 8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.08 }}
@@ -874,7 +1047,7 @@ export function FairPassWorkspace() {
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
                       <span style={{ width: 10, height: 10, borderRadius: 3, background: item.color }} />
-                      {item.label}
+                      {item.label === "Low risk" ? copy.lowRisk : item.label === "Medium risk" ? copy.mediumRisk : item.label === "High risk" ? copy.highRisk : item.label}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <strong>{item.count}</strong>
@@ -901,9 +1074,9 @@ export function FairPassWorkspace() {
           >
             <ShieldCheck size={18} color={GOLD} />
             <div>
-              <strong style={{ fontSize: 12 }}>Human review enabled</strong>
+              <strong style={{ fontSize: 12 }}>{copy.humanReview}</strong>
               <p style={{ ...mutedStyle, margin: "5px 0 0", lineHeight: 1.7 }}>
-                High-risk assessments are flagged for review. No automatic user blocking is performed.
+                {copy.humanReviewDescription}
               </p>
             </div>
           </div>
@@ -924,9 +1097,9 @@ export function FairPassWorkspace() {
           }}
         >
           <div>
-            <span className="section-kicker">LIVE API DATA</span>
-            <h3 style={{ margin: "7px 0" }}>Assessment history</h3>
-            <p style={{ ...mutedStyle, margin: 0 }}>Search and filter booking risk assessments.</p>
+            <span className="section-kicker">{copy.liveApiData}</span>
+            <h3 style={{ margin: "7px 0" }}>{copy.historyTitle}</h3>
+            <p style={{ ...mutedStyle, margin: 0 }}>{copy.historyDescription}</p>
           </div>
           <Clock3 size={20} color={GOLD} />
         </div>
@@ -938,8 +1111,8 @@ export function FairPassWorkspace() {
               style={{ position: "absolute", left: 12, top: 12, color: "var(--muted, #9298a7)" }}
             />
             <input
-              aria-label="Search assessments"
-              placeholder="Search booking or event ID..."
+              aria-label={copy.searchLabel}
+              placeholder={copy.searchPlaceholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{ ...fieldStyle, paddingLeft: 35 }}
@@ -947,15 +1120,15 @@ export function FairPassWorkspace() {
           </div>
 
           <select
-            aria-label="Filter by risk level"
+            aria-label={copy.filterLabel}
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
             style={{ ...fieldStyle, width: "auto", minWidth: 150 }}
           >
-            <option value="all">All risk levels</option>
-            <option value="high">High risk</option>
-            <option value="medium">Medium risk</option>
-            <option value="low">Low risk</option>
+            <option value="all">{copy.allRiskLevels}</option>
+            <option value="high">{copy.highOption}</option>
+            <option value="medium">{copy.mediumOption}</option>
+            <option value="low">{copy.lowOption}</option>
           </select>
         </div>
 
@@ -969,21 +1142,21 @@ export function FairPassWorkspace() {
                 transition={{ duration: 1.2, repeat: Infinity, delay: item * 0.12 }}
               />
             ))}
-            <span style={mutedStyle}>Loading assessments...</span>
+            <span style={mutedStyle}>{copy.loadingAssessments}</span>
           </div>
         ) : error ? (
-          <p style={{ padding: 20, ...mutedStyle }}>Assessment history is unavailable.</p>
+          <p style={{ padding: 20, ...mutedStyle }}>{copy.historyUnavailable}</p>
         ) : filteredRecords.length === 0 ? (
           <div style={{ padding: 28, textAlign: "center" }}>
             <Search size={24} color={GOLD} />
-            <p style={mutedStyle}>No assessments match your search or filter.</p>
+            <p style={mutedStyle}>{copy.noMatches}</p>
           </div>
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, textAlign: "left" }}>
               <thead>
                 <tr style={{ color: "var(--muted, #9298a7)" }}>
-                  {["Booking reference", "Event", "Risk score", "Risk level", "Decision", "Signals", "Created", ""].map((heading, index) => (
+                  {[copy.bookingReference, copy.event, copy.riskScore, copy.riskLevel, copy.decision, copy.signals, copy.created, ""].map((heading, index) => (
                     <th
                       key={`${heading}-${index}`}
                       style={{
@@ -1078,7 +1251,7 @@ export function FairPassWorkspace() {
           <span>Showing {filteredRecords.length} of {records.length} returned records</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
             <CircleCheck size={14} color={GREEN} />
-            API-backed data
+            {copy.apiBackedData}
           </span>
         </div>
       </motion.section>
@@ -1129,8 +1302,8 @@ export function FairPassWorkspace() {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
                 <div>
-                  <span className="section-kicker">RISK OPERATIONS</span>
-                  <h2 id="fp-form-title" style={{ margin: "7px 0" }}>New assessment</h2>
+                  <span className="section-kicker">{copy.riskOperations}</span>
+                  <h2 id="fp-form-title" style={{ margin: "7px 0" }}>{copy.modalTitle}</h2>
                   <p style={{ ...mutedStyle, lineHeight: 1.7 }}>
                     Enter booking details to evaluate risk using the configured prototype rules.
                   </p>
@@ -1149,24 +1322,24 @@ export function FairPassWorkspace() {
               <form onSubmit={submitAssessment} style={{ display: "grid", gap: 17, marginTop: 20 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 230px), 1fr))", gap: 14 }}>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Event ID *
+                    {copy.eventId} *
                     <input
                       required
                       maxLength={100}
                       value={form.event_id}
                       onChange={(e) => updateForm("event_id", e.target.value)}
-                      placeholder="e.g. CHENNAI-CONCERT-01"
+                      placeholder={copy.eventIdPlaceholder}
                       style={inputStyle}
                     />
                   </label>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Booking reference *
+                    {copy.bookingReference} *
                     <input
                       required
                       maxLength={100}
                       value={form.booking_reference}
                       onChange={(e) => updateForm("booking_reference", e.target.value)}
-                      placeholder="e.g. BOOK-2026-1003"
+                      placeholder={copy.bookingReferencePlaceholder}
                       style={inputStyle}
                     />
                   </label>
@@ -1174,7 +1347,7 @@ export function FairPassWorkspace() {
 
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 145px), 1fr))", gap: 14 }}>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Tickets requested
+                    {copy.ticketsRequested}
                     <input
                       type="number"
                       min={1}
@@ -1186,7 +1359,7 @@ export function FairPassWorkspace() {
                     />
                   </label>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Event ticket limit
+                    {copy.eventTicketLimit}
                     <input
                       type="number"
                       min={1}
@@ -1198,7 +1371,7 @@ export function FairPassWorkspace() {
                     />
                   </label>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Bookings in last 10 min
+                    {copy.bookingsLastTenMinutes}
                     <input
                       type="number"
                       min={0}
@@ -1210,7 +1383,7 @@ export function FairPassWorkspace() {
                     />
                   </label>
                   <label style={{ display: "grid", gap: 7, fontSize: 12 }}>
-                    Failed payment attempts
+                    {copy.failedPaymentAttempts}
                     <input
                       type="number"
                       min={0}
@@ -1231,9 +1404,9 @@ export function FairPassWorkspace() {
                       onChange={(e) => updateForm("repeated_booking_pattern", e.target.checked)}
                     />
                     <span>
-                      <strong>Repeated booking pattern</strong>
+                      <strong>{copy.repeatedBookingPattern}</strong>
                       <span style={{ display: "block", ...mutedStyle, marginTop: 4 }}>
-                        A configured repeat pattern was observed.
+                        {copy.repeatedBookingDescription}
                       </span>
                     </span>
                   </label>
@@ -1244,9 +1417,9 @@ export function FairPassWorkspace() {
                       onChange={(e) => updateForm("verified_account", e.target.checked)}
                     />
                     <span>
-                      <strong>Account verified</strong>
+                      <strong>{copy.accountVerified}</strong>
                       <span style={{ display: "block", ...mutedStyle, marginTop: 4 }}>
-                        Uncheck if account verification is incomplete.
+                        {copy.accountVerifiedDescription}
                       </span>
                     </span>
                   </label>
@@ -1264,7 +1437,7 @@ export function FairPassWorkspace() {
                 )}
 
                 <p style={{ ...mutedStyle, lineHeight: 1.7, margin: 0 }}>
-                  This assessment uses prototype rules, not a validated prediction model. High-risk results require human review.
+                  {copy.prototypeNotice}
                 </p>
 
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap" }}>
@@ -1274,7 +1447,7 @@ export function FairPassWorkspace() {
                     onClick={() => setFormOpen(false)}
                     style={{ ...buttonStyle, background: "transparent", color: "inherit" }}
                   >
-                    Cancel
+                    {copy.cancel}
                   </button>
                   <motion.button
                     whileHover={reducedMotion || submitting ? undefined : { y: -2 }}
@@ -1290,9 +1463,9 @@ export function FairPassWorkspace() {
                     }}
                   >
                     {submitting ? (
-                      <><RefreshCw size={15} /> Assessing...</>
+                      <><RefreshCw size={15} /> {copy.assessing}</>
                     ) : (
-                      <><Zap size={15} /> Assess booking</>
+                      <><Zap size={15} /> {copy.assessBooking}</>
                     )}
                   </motion.button>
                 </div>
