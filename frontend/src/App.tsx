@@ -64,7 +64,23 @@ const copy = {
 
 export default function App() {
   const [portal, setPortal] = useState<Portal>(null);
-  const [lang, setLang] = useState<Language>("en");
+  const [lang, setLang] = useState<Language>(() => {
+    try {
+      return localStorage.getItem("vetri-language") === "ta" ? "ta" : "en";
+    } catch {
+      return "en";
+    }
+  });
+
+  const toggleLanguage = () => {
+    setLang(current => {
+      const next = current === "en" ? "ta" : "en";
+      try {
+        localStorage.setItem("vetri-language", next);
+      } catch {}
+      return next;
+    });
+  };
   const t = copy[lang];
 
   if (portal === "government") {
@@ -91,7 +107,7 @@ export default function App() {
             <span>VETRI <b>AI</b><small>{t.tagline}</small></span>
           </a>
           <div className="portal-top-actions">
-            <button className="portal-language" onClick={() => setLang(lang === "en" ? "ta" : "en")}><Languages size={16}/>{t.language}</button>
+            <button className="portal-language" onClick={toggleLanguage}><Languages size={16}/>{t.language}</button>
             <button className="portal-back" onClick={() => setPortal(null)}>{t.back}</button>
           </div>
         </header>
@@ -123,7 +139,7 @@ export default function App() {
           <span className="portal-brand-icon"><Activity size={23}/></span>
           <span>VETRI <b>AI</b><small>{t.tagline}</small></span>
         </a>
-        <button className="portal-language" onClick={() => setLang(lang === "en" ? "ta" : "en")}><Languages size={16}/>{t.language}</button>
+        <button className="portal-language" onClick={toggleLanguage}><Languages size={16}/>{t.language}</button>
       </header>
       <section className="portal-welcome">
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>

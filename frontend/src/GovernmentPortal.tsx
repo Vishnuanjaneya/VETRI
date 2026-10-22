@@ -10,7 +10,23 @@ import { TamilNaduMap } from "./components/dashboard/TamilNaduMap";
 import { translations, type Language } from "./core/i18n/translations";
 
 export default function GovernmentPortal() {
-  const [lang, setLang] = useState<Language>("en");
+  const [lang, setLang] = useState<Language>(() => {
+    try {
+      return localStorage.getItem("vetri-language") === "ta" ? "ta" : "en";
+    } catch {
+      return "en";
+    }
+  });
+
+  const toggleLanguage = () => {
+    setLang(current => {
+      const next = current === "en" ? "ta" : "en";
+      try {
+        localStorage.setItem("vetri-language", next);
+      } catch {}
+      return next;
+    });
+  };
   const [theme, setTheme] = useState<"dark" | "light">(() => {
     try {
       const saved = localStorage.getItem("vetri-theme");
@@ -34,10 +50,10 @@ const t = translations[lang];
   return <div className="app-shell">
     <Sidebar active={active} onSelect={chooseModule} t={t}/>
     <main className="main-area">
-      <Topbar lang={lang} onLanguage={() => setLang(v => v === "en" ? "ta" : "en")} theme={theme} onTheme={() => setTheme(v => v === "dark" ? "light" : "dark")} t={t} onBackToPortal={() => { window.location.hash = ""; window.location.reload(); }}/>
+      <Topbar lang={lang} onLanguage={toggleLanguage} theme={theme} onTheme={() => setTheme(v => v === "dark" ? "light" : "dark")} t={t} onBackToPortal={() => { window.location.hash = ""; window.location.reload(); }}/>
       <div className="page-content">
         {active === 0 ? (
-          <FairPassWorkspace />
+          <FairPassWorkspace lang={lang} />
         ) : active === -1 ? (
         <>
         <motion.section className="hero" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
